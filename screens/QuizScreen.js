@@ -8,14 +8,14 @@ import {
 } from 'react-native'
 
 ShowAnswer = ({answer, answer_input}) => {
-    console.log(answer+" "+answer_input)
     if(answer === answer_input){
-        return <Text>Correct</Text>
+        return <Text style={{fontSize:30, fontWeight:'bold', color:'green', textAlign:'center', marginTop:20}}>correct</Text>
     }else{
         return (
             <View>
-                <Text>Incorrect</Text>
-                <Text>{"Correct Answer : " + answer}</Text>
+                <Text style={{fontSize:30, fontWeight:'bold', color:'red', textAlign:'center', marginTop:20}}>incorrect</Text>
+                <Text style={{fontSize:17, fontWeight:'bold', textAlign:'center', marginTop:30}}>Correct Answer : </Text>
+                <Text style={{fontSize:20, fontWeight:'bold', textAlign:'center'}}>{answer}</Text>
             </View>
         )   
     }
@@ -29,16 +29,29 @@ export default class QuizScreen extends React.Component {
         question_number:1,
         answer_input: "",
         answer_pressed: false,
+        answer_correct: 0
     }
-    Answer = () => {
+    Answer = ({answer, answer_input}) => {
         this.setState({answer_pressed:true})
+        answer === answer_input ? this.setState({answer_correct:this.state.answer_correct+1}) : null
+    }
+    Next = () => {
+        this.setState({answer_pressed:false, answer_input: "", question_number:this.state.question_number+1})
+    }
+    Restart = () => {
+        this.setState({
+            question_number:1,
+            answer_input: "",
+            answer_pressed: false,
+            answer_correct: 0
+        })
     }
     render() {
-        const { question_number, answer_input, answer_pressed } = this.state
+        const { question_number, answer_input, answer_pressed, answer_correct } = this.state
         const { deck } = this.props.navigation.state.params
         const { questions } = deck
-        const { question, answer } = questions[question_number-1]
         const question_count = deck.questions.length
+        const { question, answer } = question_count>0 ? questions[question_number-1] : {"":""}
         const ready = answer_input === ""
         return(
             <View style={styles.container}>
@@ -53,19 +66,41 @@ export default class QuizScreen extends React.Component {
                         value={answer_input}
                         placeholder="Answer"
                     ></TextInput>
-                    {!answer_pressed &&
+                    {!answer_pressed ?
                         <View style={styles.btnanswer}>
                             <Button
                                 disabled={ready}
-                                onPress={() => this.Answer()}
+                                onPress={() => this.Answer({answer:answer, answer_input:answer_input})}
                                 title="Answer"
                             />
                         </View>
+                    :
+                        <View>
+                            <ShowAnswer answer={answer} answer_input={answer_input}></ShowAnswer>
+                            { question_number === question_count ?
+                                <View style={styles.questioncontainer}>
+                                    <Text style={{fontSize:40, marginTop:40, fontWeight:'bold', color:'blue', textAlign:'center'}}>{"Your Score : " + answer_correct}</Text>
+                                    <View style={styles.btnanswer}>
+                                        <Button
+                                            disabled={ready}
+                                            onPress={() => this.Restart()}
+                                            title="Restart"
+                                        />
+                                    </View>
+                                </View>
+                                :
+                                <View style={styles.btnanswer}>
+                                    <Button
+                                        disabled={ready}
+                                        onPress={() => this.Next()}
+                                        title="Next Question"
+                                    />
+                                </View>
+                            }
+                        </View>          
                     }
-                    {answer_pressed && 
-                        <ShowAnswer answer={answer} answer_input={answer_input}></ShowAnswer>                       
-                    }
-                </View> :
+                </View>
+                :
                 <Text style={styles.label}>Sorry, you cannot take a quiz because there are no cards in the deck</Text>
             }
             </View>

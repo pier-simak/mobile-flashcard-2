@@ -32,11 +32,7 @@ class DeckListScreen extends React.Component {
   // }
   render() {
     return (
-      <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.contentContainer}>
-        <DeckList navigation={this.props.navigation}></DeckList>
-      </ScrollView>
-      </View>
+      <DeckList navigation={this.props.navigation}></DeckList>
     );
   }
 
@@ -48,7 +44,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'stretch',
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
   }

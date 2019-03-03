@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, } from 'react-native';
+import { StatusBar, View, Text, TouchableOpacity, StyleSheet, ScrollView, Platform } from 'react-native';
 import { getItem, clearAllDeck, initiateDeck } from '../utils/api'
 import { NavigationEvents } from 'react-navigation'
 const initiate_data = {
@@ -49,27 +49,42 @@ export class DeckList extends React.Component {
     render() {
         const {decks} = this.state
         const {navigate} = this.props.navigation;
-        if(decks !== null){
-          return (
-            <View>
-              <NavigationEvents
-                onDidFocus={payload => {this.refreshDeck()}}
-              />
-                {Object.entries(decks).map(([key,deck]) => (
-                    <TouchableOpacity activeOpacity={1} key={key} style={styles.deck} onPress={() => {navigate('DeckDetail', {title: deck.title, deck:deck, deckid:key, refreshDeck: this.refreshDeck.bind(this)})}}>
-                        <Text style={styles.label}>{deck.title}</Text>
-                        <Text style={styles.cardcount}>{deck.questions.length+" cards"}</Text>
-                    </TouchableOpacity>
-                ))}
-            </View>
-          ) 
-        }else{
-          return <View></View>
-        }
+        const deckscount = Object.values(decks).length
+        return (
+          <View style={styles.container}>
+            <NavigationEvents
+              onDidFocus={payload => {this.refreshDeck()}}
+            />
+            {deckscount > 0 ? 
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                  <ScrollView>
+                  {Object.entries(decks).map(([key,deck]) => (
+                      <TouchableOpacity activeOpacity={1} key={key} style={styles.deck} onPress={() => {navigate('DeckDetail', {title: deck.title, deck:deck, deckid:key, refreshDeck: this.refreshDeck.bind(this)})}}>
+                          <Text style={styles.label}>{deck.title}</Text>
+                          <Text style={styles.cardcount}>{deck.questions.length+" cards"}</Text>
+                      </TouchableOpacity>
+                  ))}
+                  </ScrollView>
+                </View>
+                :
+                <View>
+                    <Text style={{fontSize:17, fontWeight:'bold', margin: 20, textAlign:'center'}}>There are no decks in list. Select "Add Deck" to create one</Text>
+                </View>
+            }
+          </View>
+      ) 
     }
+    
 }
 
 const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      justifyContent: 'center',
+      alignItems: 'stretch',
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+    },
     deck: {
         backgroundColor: '#797FD2',
         alignItems: 'center',
