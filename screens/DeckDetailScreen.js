@@ -6,6 +6,7 @@ import {
   Button,
   TouchableOpacity
 } from 'react-native'
+import { removeEntry } from '../utils/api'
 
 export default class DeckDetailScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -20,8 +21,10 @@ export default class DeckDetailScreen extends React.Component {
 
   }
 
-  DeleteDeck = () => {
-
+  DeleteDeck = (deckid) => {
+    removeEntry(deckid, () => {
+      this.props.navigation.goBack()
+    })
   }
   render() {
     const { deck, deckid, refreshDeck } = this.props.navigation.state.params
@@ -42,7 +45,7 @@ export default class DeckDetailScreen extends React.Component {
               title="Start Quiz"
             />
           </View>
-          <TouchableOpacity onPress={() => this.DeleteDeck}>
+          <TouchableOpacity onPress={() => this.DeleteDeck(deckid)}>
             <Text style={styles.txtdelete}>Delete Deck</Text>
           </TouchableOpacity>
         </View>

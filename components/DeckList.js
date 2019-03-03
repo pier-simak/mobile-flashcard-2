@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, } from 'react-native';
-import { getItem, submitDeck } from '../utils/api'
+import { getItem, clearAllDeck, initiateDeck } from '../utils/api'
+import { NavigationEvents } from 'react-navigation'
 const initiate_data = {
     React: {
       title: 'React',
@@ -38,22 +39,7 @@ export class DeckList extends React.Component {
       this.refreshDeck()
     }
     refreshDeck = () => {
-      const data = {
-        newReact: {
-          title: 'NEWReact',
-          questions: [
-            {
-              question: 'What is React?',
-              answer: 'A library for managing user interfaces'
-            },
-            {
-              question: 'Where do you make Ajax requests in React?',
-              answer: 'The componentDidMount lifecycle event'
-            }
-          ]
-        }
-      }
-      submitDeck(data)
+      
       // initiateDeck(initiate_data)
       // clearAllDeck()
       getItem((data) => {
@@ -66,8 +52,11 @@ export class DeckList extends React.Component {
         if(decks !== null){
           return (
             <View>
+              <NavigationEvents
+                onDidFocus={payload => {this.refreshDeck()}}
+              />
                 {Object.entries(decks).map(([key,deck]) => (
-                    <TouchableOpacity key={key} style={styles.deck} onPress={() => {navigate('DeckDetail', {title: deck.title, deck:deck, deckid:key, refreshDeck: this.refreshDeck.bind(this)})}}>
+                    <TouchableOpacity activeOpacity={1} key={key} style={styles.deck} onPress={() => {navigate('DeckDetail', {title: deck.title, deck:deck, deckid:key, refreshDeck: this.refreshDeck.bind(this)})}}>
                         <Text style={styles.label}>{deck.title}</Text>
                         <Text style={styles.cardcount}>{deck.questions.length+" cards"}</Text>
                     </TouchableOpacity>

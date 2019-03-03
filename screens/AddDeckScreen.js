@@ -6,6 +6,8 @@ import {
   TextInput,
   Button,
 } from 'react-native'
+import { submitDeck } from '../utils/api'
+import { generateUID } from '../utils/helpers'
 
 export default class AddDeckScreen extends React.Component {
     static navigationOptions = {
@@ -14,8 +16,21 @@ export default class AddDeckScreen extends React.Component {
     state = {
         deckTitle: ""
     }
-    Submit = () => {
+    refreshDeck = () => {
 
+    }
+    Submit = () => {
+        const id = generateUID()
+        const data = {
+            [id]: {
+                title: this.state.deckTitle,
+                questions: []
+            }
+        }
+        submitDeck(data,()=>{
+            this.setState({deckTitle:""})
+            this.props.navigation.navigate('DeckDetail', {title: data[id].title, deck:data[id], deckid:id, refreshDeck: this.refreshDeck.bind(this)})
+        })
     }
     render(){
         return(

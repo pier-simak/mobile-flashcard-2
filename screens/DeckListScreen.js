@@ -4,23 +4,38 @@ import {
   StyleSheet,
   View,
   StatusBar,
+  ScrollView
 } from 'react-native';
 
 
 import { DeckList } from '../components/DeckList';
 import { connect } from 'react-redux';
-
+import { NavigationEvents } from 'react-navigation'
 import { bindActionCreators } from 'redux';
 import { addDeck } from '../actions/deckactions';
 class DeckListScreen extends React.Component {
   static navigationOptions = {
-    header: null
+    header: null,
+    // tabBarOnPress: ({navigation, defaultHandler}) => {
+    //   console.log("TAB BAR PRESSED")
+    //   defaultHandler()
+    // }
   };
   
+  // static navigationOptions = () => {
+  //   return {
+  //     tabBarOnPress({navigation,defaultHandler}){
+  //       console.log("ASDASDASDASD")
+  //       defaultHandler()
+  //     }
+  //   }
+  // }
   render() {
     return (
       <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
         <DeckList navigation={this.props.navigation}></DeckList>
+      </ScrollView>
       </View>
     );
   }

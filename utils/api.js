@@ -21,7 +21,7 @@ export function submitCard ({question, answer},deckid,refreshDecks) {
     })
 }
 
-export function submitDeck (newdata) {
+export function submitDeck (newdata, callback) {
   return AsyncStorage.getItem(STORAGE_KEY)
     .then((results) => {
       const data = JSON.parse(results)
@@ -30,7 +30,7 @@ export function submitDeck (newdata) {
         ...newdata
       }
       AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(temp))
-      // refreshDecks(data)
+      callback()
     })
 }
 
@@ -42,13 +42,14 @@ export function clearAllDeck () {
   return AsyncStorage.clear()
 }
 
-export function removeEntry (key) {
+export function removeEntry (key, callback) {
   return AsyncStorage.getItem(STORAGE_KEY)
     .then((results) => {
       const data = JSON.parse(results)
       data[key] = undefined
       delete data[key]
       AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+      callback()
     })
 }
 
