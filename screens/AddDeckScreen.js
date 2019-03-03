@@ -33,6 +33,8 @@ export default class AddDeckScreen extends React.Component {
         })
     }
     render(){
+        const {deckTitle} = this.state
+        const ready = deckTitle === ""
         return(
             <View style={styles.container}>
                     <Text style={styles.label}>What is the title of your new deck?</Text>
@@ -44,6 +46,7 @@ export default class AddDeckScreen extends React.Component {
                     ></TextInput>
                     <View style={styles.btnsubmit}>
                         <Button
+                            disabled={ready}
                             onPress={() => this.Submit()}
                             title="Create Deck"
                         />

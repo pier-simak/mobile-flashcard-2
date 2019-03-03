@@ -21,7 +21,8 @@ export default class AddCardScreen extends React.Component {
     Submit = (deckid, refreshDeck) => {
         const newCard = {
             question: this.state.question,
-            answer: this.state.answer
+            answer: this.state.answer,
+            myanswer: ""
         }
         submitCard(newCard,deckid,(newdeck)=>{
             this.props.navigation.navigate('DeckDetail', {title: newdeck[deckid].title, deck:newdeck[deckid], deckid:deckid, refreshDeck:refreshDeck})
@@ -29,6 +30,9 @@ export default class AddCardScreen extends React.Component {
         })
     }
     render(){
+        const {question, answer} = this.state
+        const ready = question === "" || answer === ""
+
         const { deck, deckid, refreshDeck } = this.props.navigation.state.params
         return(
             <View style={styles.container}>
@@ -47,6 +51,7 @@ export default class AddCardScreen extends React.Component {
                 />
                 <View style={styles.btnsubmit}>
                     <Button
+                        disabled={ready}
                         onPress={() => this.Submit(deckid,refreshDeck)}
                         title="Submit"
                     />

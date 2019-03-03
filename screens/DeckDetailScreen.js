@@ -18,7 +18,7 @@ export default class DeckDetailScreen extends React.Component {
   }
 
   StartQuiz = () => {
-
+    this.props.navigation.navigate('Quiz', {})
   }
 
   DeleteDeck = (deckid) => {
@@ -41,7 +41,7 @@ export default class DeckDetailScreen extends React.Component {
           </View>
           <View style={styles.btnstartquiz}>
             <Button
-              onPress={() => this.StartQuiz}
+              onPress={() => this.StartQuiz()}
               title="Start Quiz"
             />
           </View>

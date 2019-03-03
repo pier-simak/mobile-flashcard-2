@@ -4,6 +4,7 @@ import { createAppContainer, createSwitchNavigator, createStackNavigator } from 
 import MainTabNavigator from './MainTabNavigator';
 import DeckDetailScreen from '../screens/DeckDetailScreen';
 import AddCardScreen from '../screens/AddCardScreen';
+import QuizScreen from '../screens/QuizScreen';
 
 export default createAppContainer(createStackNavigator({
   // You could add another route here for authentication.
@@ -15,5 +16,6 @@ export default createAppContainer(createStackNavigator({
     }
   },
   DeckDetail: DeckDetailScreen,
-  AddCard: AddCardScreen
+  AddCard: AddCardScreen,
+  Quiz: QuizScreen
 }));
