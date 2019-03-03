@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import DeckListScreen from '../screens/DeckListScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import AddDeckScreen from '../screens/AddDeckScreen';
 
 const DeckStack = createStackNavigator({
   Decks: DeckListScreen,
@@ -39,6 +40,20 @@ LinksStack.navigationOptions = {
   ),
 };
 
+const AddDeckStack = createStackNavigator({
+  AddDeck: AddDeckScreen,
+});
+
+AddDeckStack.navigationOptions = {
+  tabBarLabel: 'Add Deck',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+    />
+  ),
+};
+
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
 });
@@ -55,5 +70,5 @@ SettingsStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   DeckStack,
-  LinksStack,
+  AddDeckStack,
 });
