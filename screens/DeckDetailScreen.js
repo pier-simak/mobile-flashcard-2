@@ -17,8 +17,8 @@ export default class DeckDetailScreen extends React.Component {
     this.props.navigation.navigate('AddCard', {deck: deck, deckid: deckid, refreshDeck:refreshDeck})
   }
 
-  StartQuiz = () => {
-    this.props.navigation.navigate('Quiz', {})
+  StartQuiz = (deck) => {
+    this.props.navigation.navigate('Quiz', {deck:deck})
   }
 
   DeleteDeck = (deckid) => {
@@ -41,7 +41,7 @@ export default class DeckDetailScreen extends React.Component {
           </View>
           <View style={styles.btnstartquiz}>
             <Button
-              onPress={() => this.StartQuiz()}
+              onPress={() => this.StartQuiz(deck)}
               title="Start Quiz"
             />
           </View>
