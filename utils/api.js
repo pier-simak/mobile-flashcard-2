@@ -21,6 +21,19 @@ export function submitCard ({question, answer},deckid,refreshDecks) {
     })
 }
 
+export function submitDeck (newdata) {
+  return AsyncStorage.getItem(STORAGE_KEY)
+    .then((results) => {
+      const data = JSON.parse(results)
+      const temp = {
+        ...data,
+        ...newdata
+      }
+      AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(temp))
+      // refreshDecks(data)
+    })
+}
+
 export function initiateDeck (deck) {
   AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(deck))
 }

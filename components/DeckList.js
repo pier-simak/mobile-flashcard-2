@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, } from 'react-native';
-import { getItem, clearAllDeck, initiateDeck } from '../utils/api'
+import { getItem, submitDeck } from '../utils/api'
 const initiate_data = {
     React: {
       title: 'React',
@@ -38,6 +38,22 @@ export class DeckList extends React.Component {
       this.refreshDeck()
     }
     refreshDeck = () => {
+      const data = {
+        newReact: {
+          title: 'NEWReact',
+          questions: [
+            {
+              question: 'What is React?',
+              answer: 'A library for managing user interfaces'
+            },
+            {
+              question: 'Where do you make Ajax requests in React?',
+              answer: 'The componentDidMount lifecycle event'
+            }
+          ]
+        }
+      }
+      submitDeck(data)
       // initiateDeck(initiate_data)
       // clearAllDeck()
       getItem((data) => {
