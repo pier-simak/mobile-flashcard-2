@@ -5,14 +5,16 @@ import AppNavigator from './navigation/AppNavigator';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import deckreducer from './reducers/deckreducer';
-
+import { setLocalNotification } from './utils/helpers'
 const store = createStore(deckreducer);
 
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
-
+  componentDidMount() {
+    setLocalNotification()
+  }
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (

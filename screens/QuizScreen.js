@@ -6,6 +6,10 @@ import {
   Button,
   TextInput
 } from 'react-native'
+import {
+    clearLocalNotification,
+    setLocalNotification
+} from '../utils/helpers'
 
 ShowAnswer = ({answer, answer_input}) => {
     if(answer === answer_input){
@@ -34,6 +38,8 @@ export default class QuizScreen extends React.Component {
     Answer = ({answer, answer_input}) => {
         this.setState({answer_pressed:true})
         answer === answer_input ? this.setState({answer_correct:this.state.answer_correct+1}) : null
+        clearLocalNotification()
+            .then(setLocalNotification)
     }
     Next = () => {
         this.setState({answer_pressed:false, answer_input: "", question_number:this.state.question_number+1})

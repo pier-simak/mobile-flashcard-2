@@ -31,19 +31,14 @@ export class DeckList extends React.Component {
     state = {
         decks: {}
     }
-    selectCard = (txt) => {
-        // this.setState({selectedDeck: txt})
-        
-    }
     componentDidMount(){
       this.refreshDeck()
     }
     refreshDeck = () => {
-      
       // initiateDeck(initiate_data)
       // clearAllDeck()
       getItem((data) => {
-        this.setState({decks:data})
+        this.setState({ decks: data || {} })
       })
     }
     render() {
