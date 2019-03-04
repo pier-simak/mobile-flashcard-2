@@ -25,6 +25,10 @@ ShowAnswer = ({answer, answer_input}) => {
     }
 }
 
+ResetNotification = () => {
+    clearLocalNotification().then(setLocalNotification)
+    return null
+}
 export default class QuizScreen extends React.Component {
     static navigationOptions = ({ navigation }) => ({
         title: "Quiz"
@@ -38,8 +42,6 @@ export default class QuizScreen extends React.Component {
     Answer = ({answer, answer_input}) => {
         this.setState({answer_pressed:true})
         answer === answer_input ? this.setState({answer_correct:this.state.answer_correct+1}) : null
-        clearLocalNotification()
-            .then(setLocalNotification)
     }
     Next = () => {
         this.setState({answer_pressed:false, answer_input: "", question_number:this.state.question_number+1})
@@ -85,6 +87,7 @@ export default class QuizScreen extends React.Component {
                             <ShowAnswer answer={answer} answer_input={answer_input}></ShowAnswer>
                             { question_number === question_count ?
                                 <View style={styles.questioncontainer}>
+                                    <ResetNotification></ResetNotification>
                                     <Text style={{fontSize:40, marginTop:40, fontWeight:'bold', color:'blue', textAlign:'center'}}>{"Your Score : " + answer_correct}</Text>
                                     <View style={styles.btnanswer}>
                                         <Button
