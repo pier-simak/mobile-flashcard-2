@@ -19,8 +19,8 @@ DeckStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-albums`
+          : 'md-albums'
       }
     />
   ),
@@ -49,7 +49,7 @@ AddDeckStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+      name={Platform.OS === 'ios' ? 'ios-add-circle' : 'md-add-circle'}
     />
   ),
 };
